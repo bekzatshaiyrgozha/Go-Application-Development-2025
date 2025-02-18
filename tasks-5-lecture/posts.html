@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="kk">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Блог</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Блог посттары</h1>
+    {{range .}}
+    <div class="post">
+        <h2>{{.Title}}</h2>
+        <p>{{.Content}}</p>
+    </div>
+    {{else}}
+    <p>Әзірге посттар жоқ...</p>
+    {{end}}
+    <p><a href="/">Басты бетке оралу</a></p>
+</body>
+
+</html>
