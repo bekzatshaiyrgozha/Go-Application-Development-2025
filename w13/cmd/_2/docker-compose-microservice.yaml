@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "8000:8000"
+    environment:
+      - AUTH_SERVICE_URL=http://auth-service:8001
+      - USER_SERVICE_URL=http://user-service:8002
+    depends_on:
+      - auth-service
+      - user-service
+
+  auth-service:
+    build: ./auth-service
+    ports:
+      - "8001:8001"
+    environment:
+      - DB_HOST=postgres
+      - REDIS_HOST=redis
+    depends_on:
+      - postgres
+      - redis
+
+  user-service:
+    build: ./user-service
+    ports:
+      - "8002:8002"
+    environment:
+      - DB_HOST=postgres
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:13
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=myapp
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:6-alpine
+    ports:
+      - "6379:6379"
+
+volumes:
+  postgres-data:

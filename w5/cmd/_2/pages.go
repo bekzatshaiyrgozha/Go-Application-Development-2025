@@ -7,11 +7,13 @@ import (
 
 func handler1(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "Main page")
+	func(){
+		
+	}
 }
 
 func main() {
-	http.HandleFunc("/page",
-		func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/page",func(w http.ResponseWriter, r *http.Request) {
 			fmt.Fprintln(w, "Single page:", r.URL.String())
 		})
 

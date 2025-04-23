@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="kk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaspi Магазин</title>
+</head>
+
+<body>
+    <h2>Жаңа тауар қосу</h2>
+    <input type="text" id="name" placeholder="Тауар атауы">
+    <input type="number" id="price" placeholder="Бағасы">
+    <button onclick="addProduct()">Қосу</button>
+
+    <h2>Тауарлар тізімі</h2>
+    <button onclick="getProducts()">Жаңарту</button>
+    <ul id="productList"></ul>
+
+    <script>
+        function addProduct() {
+            let name = document.getElementById("name").value;
+            let price = parseFloat(document.getElementById("price").value);
+
+            fetch("/products", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        price: price
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert("Тауар қосылды!");
+                    getProducts();
+                });
+        }
+
+        function getProducts() {
+            fetch("/products")
+                .then(response => response.json())
+                .then(data => {
+                    let productList = document.getElementById("productList");
+                    productList.innerHTML = "";
+                    data.forEach(product => {
+                        let li = document.createElement("li");
+                        li.textContent = `ID: ${product.id}, Атауы: ${product.name}, Бағасы: ${product.price} KZT`;
+                        productList.appendChild(li);
+                    });
+                });
+        }
+    </script>
+</body>
+
+</html>

@@ -19,12 +19,14 @@ func startServer() {
 
 	http.HandleFunc("/raw_body", func(w http.ResponseWriter, r *http.Request) {
 		body, err := ioutil.ReadAll(r.Body)
+		fmt.Println(len(body))
 		defer r.Body.Close() // важный пункт!
 		if err != nil {
 			http.Error(w, err.Error(), 500)
 			return
 		}
 		fmt.Fprintf(w, "postHandler: raw body %s\n", string(body))
+
 	})
 
 	fmt.Println("starting server at :8080")

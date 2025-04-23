@@ -52,7 +52,6 @@ func TestGetUser(t *testing.T) {
 
 		resp := w.Result()
 		body, _ := ioutil.ReadAll(resp.Body)
-
 		bodyStr := string(body)
 		if bodyStr != item.Response {
 			t.Errorf("[%d] wrong Response: got %+v, expected %+v",
